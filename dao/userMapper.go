@@ -12,11 +12,18 @@ func NewUserMapper() *UserMapper {
 	return &UserMapper{}
 }
 
-func (UserMapper) Login(username string, password string) int64 {
-	var users []model.User
+func (UserMapper) Login(username string, password string) model.User {
+	var user model.User
 	//查询数据
-	res := database.SqlDB.Where("username = ?", username).Where("password = ?", password).Find(&users)
-	return res.RowsAffected
+	database.SqlDB.Where("username = ?", username).Where("password = ?", password).Find(&user)
+	return user
+}
+
+func (UserMapper) GetInfo(userid uint64) model.User {
+	var user model.User
+	//查询数据
+	database.SqlDB.Where("user_id = ?", userid).Find(&user)
+	return user
 }
 
 func (UserMapper) FindAll() []model.User {

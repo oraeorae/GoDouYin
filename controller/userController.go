@@ -5,7 +5,6 @@ import (
 	"go_douyin/model"
 	"go_douyin/service"
 	"go_douyin/utils/response"
-	"net/http"
 )
 
 type UserController struct {
@@ -20,23 +19,22 @@ func (h *UserController) Register(c *gin.Context) {
 	var user model.User
 	c.BindJSON(&user)
 	if h.UserService.Register(user) {
-		response.Success(c, "注册成功", gin.H{
-			"id": '1',
-		}, "token")
+		response.Success(c, "注册成功", gin.H{})
 		//c.JSON(http.StatusOK, gin.H{"code": "200", "msg": "OK", "data": "注册成功"})
 	} else {
-		c.JSON(http.StatusBadRequest, gin.H{"code": "500", "msg": "OK", "data": "注册失败"})
+		response.Fail(c, -1, "注册失败", gin.H{})
 	}
 }
 
 func (h *UserController) Login(c *gin.Context) {
 	var user model.User
 	c.BindJSON(&user)
-	if h.UserService.Login(user.Username, user.Password) {
+	isLogin, userDB := h.UserService.Login(user.Username, user.Password)
+	if isLogin {
 		response.Success(c, "登录成功", gin.H{
-			"id": '1',
-		}, "token")
+			"user_id": userDB.UserID,
+		})
 	} else {
-		c.JSON(http.StatusBadRequest, gin.H{"code": "500", "msg": "OK", "data": "登录失败"})
+		response.Fail(c, -1, "登录失败", gin.H{})
 	}
 }
