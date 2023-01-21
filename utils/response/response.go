@@ -2,7 +2,8 @@ package response
 
 import (
 	"github.com/gin-gonic/gin"
-	"go_douyin/global"
+	"go_douyin/global/consts"
+	"go_douyin/global/my_errors"
 	"net/http"
 )
 
@@ -37,7 +38,7 @@ func ReturnJsonFromString(Context *gin.Context, httpCode int, jsonStr string) {
 
 //Success 直接返回成功
 func Success(c *gin.Context, msg string, data interface{}) {
-	ReturnJson(c, http.StatusOK, global.CurdStatusOkCode, msg, data)
+	ReturnJson(c, http.StatusOK, consts.CurdStatusOkCode, msg, data)
 }
 
 //Fail 失败的业务逻辑
@@ -48,45 +49,45 @@ func Fail(c *gin.Context, dataCode int, msg string, data interface{}) {
 
 // ErrorTokenBaseInfo token 基本的格式错误
 func ErrorTokenBaseInfo(c *gin.Context) {
-	ReturnJson(c, http.StatusBadRequest, http.StatusBadRequest, global.ErrorsTokenBaseInfo, "")
+	ReturnJson(c, http.StatusBadRequest, http.StatusBadRequest, my_errors.ErrorsTokenBaseInfo, "")
 	//终止可能已经被加载的其他回调函数的执行
 	c.Abort()
 }
 
 //ErrorTokenAuthFail token 权限校验失败
 func ErrorTokenAuthFail(c *gin.Context) {
-	ReturnJson(c, http.StatusUnauthorized, http.StatusUnauthorized, global.ErrorsNoAuthorization, "")
+	ReturnJson(c, http.StatusUnauthorized, http.StatusUnauthorized, my_errors.ErrorsNoAuthorization, "")
 	//终止可能已经被加载的其他回调函数的执行
 	c.Abort()
 }
 
 //ErrorTokenRefreshFail token不符合刷新条件
 func ErrorTokenRefreshFail(c *gin.Context) {
-	ReturnJson(c, http.StatusUnauthorized, http.StatusUnauthorized, global.ErrorsRefreshTokenFail, "")
+	ReturnJson(c, http.StatusUnauthorized, http.StatusUnauthorized, my_errors.ErrorsRefreshTokenFail, "")
 	//终止可能已经被加载的其他回调函数的执行
 	c.Abort()
 }
 
 //token 参数校验错误
 func TokenErrorParam(c *gin.Context, wrongParam interface{}) {
-	ReturnJson(c, http.StatusUnauthorized, global.ValidatorParamsCheckFailCode, global.ValidatorParamsCheckFailMsg, wrongParam)
+	ReturnJson(c, http.StatusUnauthorized, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg, wrongParam)
 	c.Abort()
 }
 
 // ErrorCasbinAuthFail 鉴权失败，返回 405 方法不允许访问
 func ErrorCasbinAuthFail(c *gin.Context, msg interface{}) {
-	ReturnJson(c, http.StatusMethodNotAllowed, http.StatusMethodNotAllowed, global.ErrorsCasbinNoAuthorization, msg)
+	ReturnJson(c, http.StatusMethodNotAllowed, http.StatusMethodNotAllowed, my_errors.ErrorsCasbinNoAuthorization, msg)
 	c.Abort()
 }
 
 //ErrorParam 参数校验错误
 func ErrorParam(c *gin.Context, wrongParam interface{}) {
-	ReturnJson(c, http.StatusBadRequest, global.ValidatorParamsCheckFailCode, global.ValidatorParamsCheckFailMsg, wrongParam)
+	ReturnJson(c, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg, wrongParam)
 	c.Abort()
 }
 
 // ErrorSystem 系统执行代码错误
 func ErrorSystem(c *gin.Context, msg string, data interface{}) {
-	ReturnJson(c, http.StatusInternalServerError, global.ServerOccurredErrorCode, global.ServerOccurredErrorMsg+msg, data)
+	ReturnJson(c, http.StatusInternalServerError, consts.ServerOccurredErrorCode, consts.ServerOccurredErrorMsg+msg, data)
 	c.Abort()
 }

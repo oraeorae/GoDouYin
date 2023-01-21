@@ -12,6 +12,7 @@ func SetupRouter() *gin.Engine {
 	{
 		v1.POST("register", userController.Register)
 		v1.POST("login", userController.Login)
+		v1.GET("/", userController.GetInfo)
 	}
 	return router
 }

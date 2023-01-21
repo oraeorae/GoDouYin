@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"fmt"
 	"go_douyin/database"
 	"go_douyin/model"
 )
@@ -23,6 +24,7 @@ func (UserMapper) GetInfo(userid uint64) model.User {
 	var user model.User
 	//查询数据
 	database.SqlDB.Where("user_id = ?", userid).Find(&user)
+	fmt.Print(user)
 	return user
 }
 
