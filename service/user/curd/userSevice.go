@@ -5,6 +5,7 @@ import (
 	"go_douyin/dao"
 	"go_douyin/model"
 	JWT "go_douyin/service/user/token"
+	"go_douyin/utils/md5_encrypt"
 	"reflect"
 	"time"
 )
@@ -21,6 +22,8 @@ func NewUserService() *UserService {
 
 func (h *UserService) Register(user model.User) bool {
 	user.CreateTime = time.Now()
+	// 预先处理密码MD5加密
+	user.Password = md5_encrypt.Base64Md5(user.Password)
 	row := h.userMapper.Add(user)
 	if row > 0 {
 		return true
@@ -30,7 +33,7 @@ func (h *UserService) Register(user model.User) bool {
 }
 
 func (h *UserService) Login(username string, password string) (bool, model.User, string) {
-	var user model.User = h.userMapper.Login(username, password)
+	var user model.User = h.userMapper.Login(username, md5_encrypt.Base64Md5(password))
 	// 比较结构体是否为空
 	if reflect.DeepEqual(user, model.User{}) { //判断是否为空值
 		//fmt.Println("user is empty")
