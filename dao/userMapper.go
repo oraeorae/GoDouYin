@@ -6,6 +6,7 @@ import (
 	"go_douyin/model"
 )
 
+//(以下代码可以防止SQL注入)
 // UserMapper 自定义UserMapper的类型，于user实体类对应即可
 type UserMapper struct{}
 
