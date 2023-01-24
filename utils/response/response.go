@@ -16,11 +16,6 @@ func ReturnJson(Context *gin.Context, httpCode int, dataCode int, msg string, da
 		"status_msg": msg,
 	}
 	// 这种写法确保是平级，而不是嵌套
-	//if dataMap, ok := data.(map[string]interface{}); ok {
-	//	for k, v := range dataMap {
-	//		response[k] = v
-	//	}
-	//}
 	// gin.H的直接加入
 	for k, v := range data.(gin.H) {
 		response[k] = v
