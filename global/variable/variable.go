@@ -1,6 +1,7 @@
 package variable
 
 import (
+	"github.com/spf13/viper"
 	"go_douyin/global/my_errors"
 	_ "gorm.io/gorm"
 	"log"
@@ -8,7 +9,7 @@ import (
 	"strings"
 )
 
-// 全局变量
+// 全局变量（注意首字母大写）
 
 var (
 	BasePath string // 定义项目的根目录
@@ -19,6 +20,7 @@ var (
 	// 全局日志指针
 	//ZapLog *zap.Logger
 	// 全局配置文件
+	Config *viper.Viper
 	//ConfigYml       ymlconfig_interf.YmlConfigInterf // 全局配置文件指针
 	//ConfigGormv2Yml ymlconfig_interf.YmlConfigInterf // 全局配置文件指针
 

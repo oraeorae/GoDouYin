@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"go_douyin/global/my_errors"
+	"go_douyin/global/variable"
 	"go_douyin/utils/my_jwt"
 	"time"
 )
@@ -11,8 +12,7 @@ import (
 // CreateUserFactory 创建 userToken 工厂
 func CreateUserFactory() *userToken {
 	return &userToken{
-		//userJwt: my_jwt.CreateMyJWT(variable.ConfigYml.GetString("Token.JwtTokenSignKey")),
-		userJwt: my_jwt.CreateMyJWT("12314@"),
+		userJwt: my_jwt.CreateMyJWT(variable.Config.GetString("Token.JwtTokenSignKey")),
 	}
 }
 
