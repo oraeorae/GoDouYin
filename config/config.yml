@@ -9,9 +9,9 @@ Token:
 
 
 Redis:
-  Host: "127.0.0.1"
-  Port: 6379
-  Auth: ""
+  Host: "43.139.72.246"
+  Port: 6322
+  Auth: "000415"
   MaxIdle: 10
   MaxActive: 1000
   IdleTimeout: 60

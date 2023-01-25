@@ -2,11 +2,8 @@ package variable
 
 import (
 	"github.com/spf13/viper"
-	"go_douyin/global/my_errors"
+	"github.com/willf/bloom"
 	_ "gorm.io/gorm"
-	"log"
-	"os"
-	"strings"
 )
 
 // 全局变量（注意首字母大写）
@@ -21,6 +18,10 @@ var (
 	//ZapLog *zap.Logger
 	// 全局配置文件
 	Config *viper.Viper
+
+	// 创建布隆过滤器
+	Filter *bloom.BloomFilter
+
 	//ConfigYml       ymlconfig_interf.YmlConfigInterf // 全局配置文件指针
 	//ConfigGormv2Yml ymlconfig_interf.YmlConfigInterf // 全局配置文件指针
 
@@ -44,16 +45,17 @@ var (
 
 )
 
-func init() {
-	// 1.初始化程序根目录
-	if curPath, err := os.Getwd(); err == nil {
-		// 路径进行处理，兼容单元测试程序程序启动时的奇怪路径
-		if len(os.Args) > 1 && strings.HasPrefix(os.Args[1], "-test") {
-			BasePath = strings.Replace(strings.Replace(curPath, `\test`, "", 1), `/test`, "", 1)
-		} else {
-			BasePath = curPath
-		}
-	} else {
-		log.Fatal(my_errors.ErrorsBasePath)
-	}
+func Init() {
+	//// 1.初始化程序根目录
+	//if curPath, err := os.Getwd(); err == nil {
+	//	// 路径进行处理，兼容单元测试程序程序启动时的奇怪路径
+	//	if len(os.Args) > 1 && strings.HasPrefix(os.Args[1], "-test") {
+	//		BasePath = strings.Replace(strings.Replace(curPath, `\test`, "", 1), `/test`, "", 1)
+	//	} else {
+	//		BasePath = curPath
+	//	}
+	//} else {
+	//	log.Fatal(my_errors.ErrorsBasePath)
+	//}
+	Filter = bloom.New(1000000, 5)
 }
