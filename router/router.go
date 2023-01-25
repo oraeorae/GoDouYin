@@ -4,6 +4,7 @@ import (
 	"github.com/dvwright/xss-mw"
 	"github.com/gin-gonic/gin"
 	"go_douyin/controller"
+	"go_douyin/middleware/ratelimit"
 	"go_douyin/utils/cors"
 )
 
@@ -23,6 +24,7 @@ func SetupRouter() *gin.Engine {
 	// 社交组：关注，粉丝相关信息
 	v2 := router.Group("/douyin/relation")
 	{
+		v2.Use(ratelimit.RateLimiter())
 		v2.POST("action", followController.FollowAction)
 		v2.GET("follow/list", followController.FollowList)
 		v2.GET("follower/list", followController.FansList)
