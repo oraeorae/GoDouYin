@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"go_douyin/middleware/validator"
 	"go_douyin/model"
 	"go_douyin/service/user/curd"
 	"go_douyin/utils/response"
@@ -30,9 +31,9 @@ func (h *UserController) Register(c *gin.Context) {
 }
 
 func (h *UserController) Login(c *gin.Context) {
-	var user model.User
-	c.BindJSON(&user)
-	isLogin, userDB, token := h.UserService.Login(user.Username, user.Password)
+	var login validator.Login
+	login = c.MustGet("login").(validator.Login)
+	isLogin, userDB, token := h.UserService.Login(login.Username, login.Password)
 	if isLogin {
 		response.Success(c, "登录成功", gin.H{
 			"user_id": userDB.UserID,

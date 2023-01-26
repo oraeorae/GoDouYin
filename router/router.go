@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go_douyin/controller"
 	"go_douyin/middleware/ratelimit"
+	"go_douyin/middleware/validator"
 	"go_douyin/utils/cors"
 )
 
@@ -18,7 +19,7 @@ func SetupRouter() *gin.Engine {
 	v1 := router.Group("/douyin/user")
 	{
 		v1.POST("register", userController.Register)
-		v1.POST("login", userController.Login)
+		v1.POST("login", validator.LoginValidationMiddleware(), userController.Login)
 		v1.GET("/", userController.GetInfo)
 	}
 	// 社交组：关注，粉丝相关信息
