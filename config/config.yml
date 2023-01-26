@@ -31,3 +31,9 @@ Logs:
   MaxBackups: 7                                        #保留旧日志最大个数
   MaxAge: 15                                           #保留旧日志最大天数
   Compress: false                                      #日志备份时，是否进行压缩
+
+CDN:
+  AccessKey: cLzj9gD8NkpV7-y3xi0zD-cviVvu4IXHHrvGTgVA
+  SercetKey: HrzF0jDtZqG4YO4zkh1M9C-_TiCSTGDomOm_ZyUC
+  Bucket: orall
+  QiniuServer: cdn.orall.top
