@@ -15,6 +15,8 @@ func SetupRouter() *gin.Engine {
 	router.Use(xssMdlwr.RemoveXss())
 	userController := controller.NewUserController()
 	followController := controller.NewFollowController()
+	videoController := controller.NewVideoController()
+
 	// 用户组：登录注册，获取个人信息
 	v1 := router.Group("/douyin/user")
 	{
@@ -30,6 +32,11 @@ func SetupRouter() *gin.Engine {
 		v2.GET("follow/list", followController.FollowList)
 		v2.GET("follower/list", followController.FansList)
 		v2.GET("friend/list", followController.FriendsList)
+	}
+	// 用户组：登录注册，获取个人信息
+	v3 := router.Group("/douyin/publish")
+	{
+		v3.POST("action", videoController.UploadFile)
 	}
 	//允许跨域
 	router.Use(cors.Next())
