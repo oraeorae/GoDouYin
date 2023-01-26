@@ -3,7 +3,11 @@ package variable
 import (
 	"github.com/spf13/viper"
 	"github.com/willf/bloom"
+	"go.uber.org/zap"
+	"go_douyin/global/my_errors"
 	_ "gorm.io/gorm"
+	"log"
+	"os"
 )
 
 // 全局变量（注意首字母大写）
@@ -15,7 +19,8 @@ var (
 	//DateFormat         = "2006-01-02 15:04:05" //  设置全局日期时间格式
 
 	// 全局日志指针
-	//ZapLog *zap.Logger
+	ZapLog *zap.Logger
+
 	// 全局配置文件
 	Config *viper.Viper
 
@@ -40,22 +45,26 @@ var (
 
 	//casbin 全局操作指针
 	//Enforcer *casbin.SyncedEnforcer
-
-	//  用户自行定义其他全局变量 ↓
-
 )
 
+// 检查项目必须的非编译目录是否存在，避免编译后调用的时候缺失相关目录
+func checkRequiredFolders() {
+	//1.检查配置文件是否存在
+	if _, err := os.Stat(BasePath + "/config/config.yml"); err != nil {
+		log.Fatal(my_errors.ErrorsConfigYamlNotExists + err.Error())
+	}
+	//2.检查storage/logs 目录是否存在
+	if _, err := os.Stat(BasePath + "/storage/logs/"); err != nil {
+		log.Fatal(my_errors.ErrorsStorageLogsNotExists + err.Error())
+	}
+
+}
+
 func Init() {
-	//// 1.初始化程序根目录
-	//if curPath, err := os.Getwd(); err == nil {
-	//	// 路径进行处理，兼容单元测试程序程序启动时的奇怪路径
-	//	if len(os.Args) > 1 && strings.HasPrefix(os.Args[1], "-test") {
-	//		BasePath = strings.Replace(strings.Replace(curPath, `\test`, "", 1), `/test`, "", 1)
-	//	} else {
-	//		BasePath = curPath
-	//	}
-	//} else {
-	//	log.Fatal(my_errors.ErrorsBasePath)
-	//}
+	//1.检查配置文件以及日志目录等非编译性的必要条件
+	//checkRequiredFolders()
+
+	//2.初始化布隆过滤器
 	Filter = bloom.New(1000000, 5)
+
 }

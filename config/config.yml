@@ -1,3 +1,5 @@
+AppDebug: true   # 设置程序所处的模式，debug=true 调试模式，日志优先显示在控制台， debug=false 非调试模式，将写入日志文件
+
 Token:
   JwtTokenSignKey: "ora@qqCQ123"    #设置token生成时加密的签名
   JwtTokenOnlineUsers: 10          #一个账号密码允许最大获取几个有效的token，当超过这个值，第一次获取的token的账号、密码就会失效
@@ -11,10 +13,21 @@ Token:
 Redis:
   Host: "43.139.72.246"
   Port: 6322
-  Auth: "000415"
+  Auth: "000415"     # 密码
   MaxIdle: 10
   MaxActive: 1000
   IdleTimeout: 60
   IndexDb: 1      # 注意 redis 默认连接的是 1 号数据库，不是 0号数据库
   ConnFailRetryTimes: 3    #从连接池获取连接失败，最大重试次数
   ReConnectInterval: 1     # 从连接池获取连接失败，每次重试之间间隔的秒数
+
+
+Logs:
+  GinLogName: "/storage/logs/gin.log"                  #设置 gin 框架的接口访问日志
+  GoDouYinLogName: "/storage/logs/douyin.log"    #设置项目运行时日志文件名，注意该名称不要与上一条重复 ,避免和 gin 框架的日志掺杂一起，造成混乱。
+  TextFormat: "json"                                #记录日志的格式，参数选项：console、json ， console 表示一般的文本格式
+  TimePrecision: "millisecond"                         #记录日志时，相关的时间精度，该参数选项：second  、 millisecond ， 分别表示 秒 和 毫秒 ,默认为毫秒级别
+  MaxSize: 10                                           #每个日志的最大尺寸(以MB为单位）， 超过该值，系统将会自动进行切割
+  MaxBackups: 7                                        #保留旧日志最大个数
+  MaxAge: 15                                           #保留旧日志最大天数
+  Compress: false                                      #日志备份时，是否进行压缩
