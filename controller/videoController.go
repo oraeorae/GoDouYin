@@ -18,6 +18,7 @@ func (h *VideoController) UploadFile(c *gin.Context) {
 	video.SaveFile(file, header)
 	token := c.PostForm("token")
 	title := c.PostForm("title")
+
 	fmt.Println(token, title)
 	//service.UploadService(param1, param2, filename)
 	c.String(http.StatusOK, "File uploaded successfully")
