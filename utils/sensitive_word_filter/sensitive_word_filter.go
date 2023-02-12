@@ -1,11 +1,5 @@
 package sensitive_word_filter
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-)
-
 const replaceString = "***"
 
 // TrieNode 前缀树的结点
@@ -57,8 +51,9 @@ func (t *Trie) Search(word string) bool {
 }
 
 // Filter 过滤敏感词
-// Filter 过滤敏感词
 func (t *Trie) Filter(text string) string {
+	// 加上一个字符，方便敏感词在最后的处理
+	text = text + "!"
 	// 设置当前节点为根节点
 	node := t.root
 	// 记录单词的开始位置
@@ -88,24 +83,7 @@ func (t *Trie) Filter(text string) string {
 			node = node.children[char]
 		}
 	}
-	return string(result)
-}
-
-func main() {
-	// 创建前缀树
-	trie := NewTrie()
-
-	// 从文件中读取敏感词
-	file, _ := os.Open("sensitive_words.txt")
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		trie.Insert(scanner.Text())
-	}
-
-	// 过滤敏感词
-	text := "这是一段评论，里面有敏感词，快手"
-	fmt.Println("原始评论:", text)
-	filteredText := trie.Filter(text)
-	fmt.Println("过滤后评论:", filteredText)
+	res := string(result)
+	// 去掉刚才的字符
+	return res[:len(res)-1]
 }

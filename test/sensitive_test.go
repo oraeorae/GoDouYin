@@ -22,7 +22,7 @@ func TestSensitive(t *testing.T) {
 	}
 
 	// 过滤敏感词
-	text := "这是一段评论，快手,里面有敏感词"
+	text := "这是一段评论，里面有敏感词,快手"
 	fmt.Println("原始评论:", text)
 	filteredText := trie.Filter(text)
 	fmt.Println("过滤后评论:", filteredText)
