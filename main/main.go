@@ -16,8 +16,9 @@ func main() {
 	// 注意初始化数据库
 	database.SqlClient()
 
-	// 5.创建协程监听消息队列
+	// 5.创建协程监听评论的消息队列
 	go dao.ListenComment()
+	go dao.ListenPreloadCommentList()
 
 	variable.ZapLog.Info("程序正在运行")
 	r := router.SetupRouter()

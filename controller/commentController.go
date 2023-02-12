@@ -40,5 +40,11 @@ func (h *CommentController) AddComment(c *gin.Context) {
 		response.Success(c, "评论失败", gin.H{})
 		return
 	}
+
 	response.Success(c, "评论成功", gin.H{})
+}
+
+// 预加载demo，想测试结果可以放在上面
+func (h *CommentController) DemoPreload(c *gin.Context) {
+	h.commentService.PreloadCommentList('1')
 }

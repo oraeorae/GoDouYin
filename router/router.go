@@ -43,6 +43,7 @@ func SetupRouter() *gin.Engine {
 	v4 := router.Group("/douyin/comment")
 	{
 		v4.POST("action", commentController.AddComment)
+		//v4.GET("list")
 	}
 	//允许跨域
 	router.Use(cors.Next())

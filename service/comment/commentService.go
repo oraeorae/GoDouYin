@@ -32,3 +32,11 @@ func (h *CommentService) AddComment(comment model.Comment) error {
 	err = variable.Kafka.ProduceMessage(string(commentJSON))
 	return err
 }
+
+// 预加载评论列表
+func (h *CommentService) PreloadCommentList(video_id uint64) error {
+	fmt.Printf("执行预加载")
+	// 将预加载的视频id放到消息队列
+	err := variable.Kafka_preload.ProduceMessage(string(video_id))
+	return err
+}

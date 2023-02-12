@@ -30,9 +30,11 @@ var (
 	// 创建布隆过滤器
 	Filter *bloom.BloomFilter
 
-	//全局消息队列
+	// 全局消息队列
+	// 评论的队列
 	Kafka *kafka_client.KafkaClient
-
+	// 预加载的队列
+	Kafka_preload *kafka_client.KafkaClient
 	//全局敏感词过滤
 	Trie *sensitive_word_filter.Trie
 
@@ -76,6 +78,8 @@ func Init() {
 	Filter = bloom.New(1000000, 5)
 	// 3.创建监听评论的消息队列（后面改到配置那里）
 	Kafka = kafka_client.NewKafkaClient([]string{"43.139.72.246:9092"}, "comment-topic")
+	Kafka_preload = kafka_client.NewKafkaClient([]string{"43.139.72.246:9092"}, "comment-preload-topic")
+
 	// 4.创建敏感词过滤树
 	fmt.Println("创建敏感词前缀树")
 	Trie = sensitive_word_filter.NewTrie()

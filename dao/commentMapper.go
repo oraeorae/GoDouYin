@@ -13,6 +13,7 @@ func NewCommentMapper() *CommentMapper {
 	return &CommentMapper{}
 }
 
+// 监听评论消息队列
 func ListenComment() {
 	for {
 		// 获取消息
@@ -35,6 +36,21 @@ func ListenComment() {
 			continue
 		}
 		fmt.Printf("成功存储评论数据：%+v\n", comment)
+	}
+}
+
+// 监听预加载评论消息队列
+func ListenPreloadCommentList() {
+	for {
+		fmt.Printf("正在预加载……")
+		// 获取消息
+		message, err := variable.Kafka_preload.ConsumeMessage()
+		if err != nil {
+			fmt.Printf("获取消息失败：%v\n", err)
+			continue
+		}
+		// 此次应写存储到缓存的函数
+		fmt.Printf("正在缓存" + message + "视频id的评论")
 	}
 }
 
