@@ -21,7 +21,7 @@ func NewCommentService() *CommentService {
 // AddComment 添加评论
 func (h *CommentService) AddComment(comment model.Comment) error {
 	// 进行敏感词过滤
-	comment.Content = variable.Trie.Filter(comment.Content)
+	comment.Content = variable.Trie.Replace(comment.Content, variable.Root)
 	fmt.Println(comment.Content)
 	// 序列化评论数据
 	commentJSON, err := json.Marshal(comment)

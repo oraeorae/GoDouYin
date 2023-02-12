@@ -3,6 +3,7 @@ package test
 import (
 	"bufio"
 	"fmt"
+	"github.com/syyongx/go-wordsfilter"
 	"go_douyin/utils/sensitive_word_filter"
 	"os"
 	"testing"
@@ -26,4 +27,13 @@ func TestSensitive(t *testing.T) {
 	fmt.Println("原始评论:", text)
 	filteredText := trie.Filter(text)
 	fmt.Println("过滤后评论:", filteredText)
+}
+
+func TestSensitive2(t *testing.T) {
+	wf := wordsfilter.New()
+	root, _ := wf.GenerateWithFile("../config/sensitive_words.txt")
+	//替换
+	newStr := wf.Replace("不可描快", root)
+	//打印替换好的文本
+	fmt.Println(newStr)
 }

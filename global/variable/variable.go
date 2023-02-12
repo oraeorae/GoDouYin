@@ -1,14 +1,13 @@
 package variable
 
 import (
-	"bufio"
 	"fmt"
 	"github.com/spf13/viper"
+	"github.com/syyongx/go-wordsfilter"
 	"github.com/willf/bloom"
 	"go.uber.org/zap"
 	"go_douyin/global/my_errors"
 	"go_douyin/utils/kafka_client"
-	"go_douyin/utils/sensitive_word_filter"
 	_ "gorm.io/gorm"
 	"log"
 	"os"
@@ -36,7 +35,8 @@ var (
 	// 预加载的队列
 	Kafka_preload *kafka_client.KafkaClient
 	//全局敏感词过滤
-	Trie *sensitive_word_filter.Trie
+	Trie *wordsfilter.WordsFilter
+	Root map[string]*wordsfilter.Node
 
 	//ConfigYml       ymlconfig_interf.YmlConfigInterf // 全局配置文件指针
 	//ConfigGormv2Yml ymlconfig_interf.YmlConfigInterf // 全局配置文件指针
@@ -82,13 +82,6 @@ func Init() {
 
 	// 4.创建敏感词过滤树
 	fmt.Println("创建敏感词前缀树")
-	Trie = sensitive_word_filter.NewTrie()
-	// 从文件中读取敏感词
-	file, _ := os.Open(BasePath + "/config/sensitive_words.txt")
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		Trie.Insert(scanner.Text())
-	}
-
+	Trie = wordsfilter.New()
+	Root, _ = Trie.GenerateWithFile(BasePath + "/config/sensitive_words.txt")
 }
