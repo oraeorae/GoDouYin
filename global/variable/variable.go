@@ -1,17 +1,20 @@
 package variable
 
 import (
+	"bufio"
+	"fmt"
 	"github.com/spf13/viper"
 	"github.com/willf/bloom"
 	"go.uber.org/zap"
 	"go_douyin/global/my_errors"
+	"go_douyin/utils/kafka_client"
+	"go_douyin/utils/sensitive_word_filter"
 	_ "gorm.io/gorm"
 	"log"
 	"os"
 )
 
 // 全局变量（注意首字母大写）
-
 var (
 	BasePath string // 定义项目的根目录
 	//EventDestroyPrefix = "Destroy_"            //  程序退出时需要销毁的事件前缀
@@ -26,6 +29,12 @@ var (
 
 	// 创建布隆过滤器
 	Filter *bloom.BloomFilter
+
+	//全局消息队列
+	Kafka *kafka_client.KafkaClient
+
+	//全局敏感词过滤
+	Trie *sensitive_word_filter.Trie
 
 	//ConfigYml       ymlconfig_interf.YmlConfigInterf // 全局配置文件指针
 	//ConfigGormv2Yml ymlconfig_interf.YmlConfigInterf // 全局配置文件指针
@@ -63,8 +72,19 @@ func checkRequiredFolders() {
 func Init() {
 	//1.检查配置文件以及日志目录等非编译性的必要条件
 	//checkRequiredFolders()
-
 	//2.初始化布隆过滤器
 	Filter = bloom.New(1000000, 5)
+	// 3.创建监听评论的消息队列（后面改到配置那里）
+	Kafka = kafka_client.NewKafkaClient([]string{"43.139.72.246:9092"}, "comment-topic")
+	// 4.创建敏感词过滤树
+	fmt.Println("创建敏感词前缀树")
+	Trie = sensitive_word_filter.NewTrie()
+	// 从文件中读取敏感词
+	file, _ := os.Open(BasePath + "/config/sensitive_words.txt")
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		Trie.Insert(scanner.Text())
+	}
 
 }

@@ -21,7 +21,6 @@ Redis:
   ConnFailRetryTimes: 3    #从连接池获取连接失败，最大重试次数
   ReConnectInterval: 1     # 从连接池获取连接失败，每次重试之间间隔的秒数
 
-
 Logs:
   GinLogName: "/storage/logs/gin.log"                  #设置 gin 框架的接口访问日志
   GoDouYinLogName: "/storage/logs/douyin.log"    #设置项目运行时日志文件名，注意该名称不要与上一条重复 ,避免和 gin 框架的日志掺杂一起，造成混乱。
