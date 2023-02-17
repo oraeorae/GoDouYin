@@ -19,6 +19,8 @@ func main() {
 	// 5.创建协程监听评论的消息队列
 	go dao.ListenComment()
 	go dao.ListenPreloadCommentList()
+	// 监听私信聊天的消息队列
+	go dao.ListenChat()
 
 	variable.ZapLog.Info("程序正在运行")
 	r := router.SetupRouter()

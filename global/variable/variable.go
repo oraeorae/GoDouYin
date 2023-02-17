@@ -34,6 +34,9 @@ var (
 	Kafka *kafka_client.KafkaClient
 	// 预加载的队列
 	Kafka_preload *kafka_client.KafkaClient
+	// 私信聊天的队列
+	Kafka_chat *kafka_client.KafkaClient
+
 	//全局敏感词过滤
 	Trie *wordsfilter.WordsFilter
 	Root map[string]*wordsfilter.Node
@@ -79,6 +82,7 @@ func Init() {
 	// 3.创建监听评论的消息队列（后面改到配置那里）
 	Kafka = kafka_client.NewKafkaClient([]string{"43.139.72.246:9092"}, "comment-topic")
 	Kafka_preload = kafka_client.NewKafkaClient([]string{"43.139.72.246:9092"}, "comment-preload-topic")
+	Kafka_chat = kafka_client.NewKafkaClient([]string{"43.139.72.246:9092"}, "chat-topic")
 
 	// 4.创建敏感词过滤树
 	fmt.Println("创建敏感词前缀树")

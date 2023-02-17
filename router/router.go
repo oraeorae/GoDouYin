@@ -17,6 +17,7 @@ func SetupRouter() *gin.Engine {
 	followController := controller.NewFollowController()
 	videoController := controller.NewVideoController()
 	commentController := controller.NewCommentController()
+	chatController := controller.NewChatController()
 
 	// 用户组：登录注册，获取个人信息
 	v1 := router.Group("/douyin/user")
@@ -44,6 +45,12 @@ func SetupRouter() *gin.Engine {
 	{
 		v4.POST("action", commentController.AddComment)
 		//v4.GET("list")
+	}
+	// 社交组：私信聊天
+	v5 := router.Group("/douyin/message")
+	{
+		v5.POST("action", chatController.AddChat)
+		v5.GET("chat", chatController.ListChat)
 	}
 	//允许跨域
 	router.Use(cors.Next())
