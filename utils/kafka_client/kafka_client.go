@@ -16,6 +16,7 @@ type KafkaClient struct {
 // NewKafkaClient 创建一个Kafka工具类
 func NewKafkaClient(brokers []string, topic string) *KafkaClient {
 	kafkaClient := &KafkaClient{}
+
 	// 创建生产者
 	kafkaClient.producer = kafka.NewWriter(kafka.WriterConfig{
 		Brokers:  brokers,
