@@ -63,9 +63,9 @@ https://www.apifox.cn/apidoc/shared-09d88f32-0b6c-4157-9d07-a36d32d7a75c/api-507
 
 ## 数据库ER图
 
-![[Pasted image 20230325093903.png]]
-![[Pasted image 20230325093908.png]]
-
+![image](https://github.com/oraeorae/go_douyin/blob/orall/photo/11.png)
+![image](https://github.com/oraeorae/go_douyin/blob/orall/photo/22.png)
+-
 ## 场景分析
 
 **场景1：**
